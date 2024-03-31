@@ -54,15 +54,16 @@ def run(stop=False):
         table.merge(x_1, y_1, x_2, y_2, stop)
     return table.grade
 
-max_grade = 0
-best_seed = 0
-# for i in range(100):
-#     set_seed(i)
-#     grade = run()
-#     print(f'seed: {i}, grade: {grade}, max_grade: {max_grade}, best_seed: {best_seed}')
-#     if grade > max_grade:
-#         max_grade = grade
-#         best_seed = i
+if __name__ == '__main__':
+    max_grade = 0
+    best_seed = 0
+    for i in range(100):
+        set_seed(i)
+        grade = run()
+        print(f'seed: {i}, grade: {grade}, max_grade: {max_grade}, best_seed: {best_seed}')
+        if grade > max_grade:
+            max_grade = grade
+            best_seed = i
 
-set_seed(29)
-run(stop=True)
+    set_seed(best_seed)
+    run(stop=True)

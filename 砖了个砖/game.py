@@ -202,29 +202,18 @@ def run(stop=False):
     # print(table.show())
     return table
 
-max_grade = 0
-best_seed = 0
-# for i in range(135, 200):
-#     set_seed(i)
-#     table = run()
-#     print(f'seed: {i}, grade: {table.grade}, best seed: {best_seed}, max grade: {max_grade}, therotic max grade: {table.max_grade}')
-#     if table.grade > max_grade:
-#         max_grade = table.grade
-#         best_seed = i
-#         if table.grade >= table.max_grade - 1:
-#             break
+if __name__ == '__main__':
+    max_grade = 0
+    best_seed = 0
+    for i in range(135, 200):
+        set_seed(i)
+        table = run()
+        print(f'seed: {i}, grade: {table.grade}, best seed: {best_seed}, max grade: {max_grade}, therotic max grade: {table.max_grade}')
+        if table.grade > max_grade:
+            max_grade = table.grade
+            best_seed = i
+            if table.grade >= table.max_grade - 1:
+                break
 
-set_seed(best_seed)
-run(stop=True)
-
-# table = Table()
-# table.merge(4, 0, 4, 0)
-# table.merge(5, 0, 5, 0)
-# table.merge(7, 0, 4, 0, stop=True)
-# table.merge(6, 8, 6, 8)
-# table.merge(4, 5, 4, 5, stop=True)
-# table.merge(3, 5, 4, 5, stop=True)
-# table.merge(3, 4, 4, 4)
-# table.merge(7, 4, 6, 4, stop=True)
-# table.merge(5, 8, 5, 7, stop=True)
-# print(table.show())
+    set_seed(best_seed)
+    run(stop=True)
