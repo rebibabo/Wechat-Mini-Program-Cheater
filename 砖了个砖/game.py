@@ -1,6 +1,6 @@
 import random
 import numpy as np
-from cv_digit import recognize_digit
+from cv_digit import recognize_digit2
 import os
 import copy
 from PIL import Image
@@ -9,15 +9,11 @@ def set_seed(seed):
     random.seed(seed)
 
 class Table:
-    def __init__(self):
+    def __init__(self, table):
         self.width = 10
         self.height = 14
         # self.table = np.array([[random.randint(1, 16) for _ in range(self.width)] for _ in range(self.height)])
-        for file in os.listdir('.'):
-            if file.endswith('.jpg'):
-                self.table = np.array(recognize_digit(file))
-                break
-        input(self.show())
+        self.table = table
         self.grade = 0
         self.operations = []
         self.max_grade = np.sum(self.table != 0) // 2
@@ -190,8 +186,8 @@ class Table:
             # self.show_pic(idx)
             input(self.show((x_1, y_1, x_2, y_2), direction, choice))
             
-def run(stop=False):
-    table = Table()
+def run(t, stop=False):
+    table = Table(t)
     # print(table.show())
     for _ in range(300000):
         x_1 = random.randint(0, table.height- 1)
@@ -205,9 +201,13 @@ def run(stop=False):
 if __name__ == '__main__':
     max_grade = 0
     best_seed = 0
-    for i in range(135, 200):
+    for file in os.listdir('.'):
+        if file.endswith('.jpg'):
+            t = np.array(recognize_digit2(file))
+            break
+    for i in range(151, 200):
         set_seed(i)
-        table = run()
+        table = run(t)
         print(f'seed: {i}, grade: {table.grade}, best seed: {best_seed}, max grade: {max_grade}, therotic max grade: {table.max_grade}')
         if table.grade > max_grade:
             max_grade = table.grade
@@ -216,4 +216,4 @@ if __name__ == '__main__':
                 break
 
     set_seed(best_seed)
-    run(stop=True)
+    run(t, stop=True)
