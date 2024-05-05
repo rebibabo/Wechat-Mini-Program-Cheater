@@ -4,22 +4,6 @@ from PIL import Image
 import os
 from tqdm import tqdm
 
-def timer(func):
-    def wrapper(*args, **kwargs):
-        import time
-        start = time.time()
-        func(*args, **kwargs)
-        print(f'{func.__name__} cost {time.time() - start} seconds')
-    return wrapper
-
-def find_matches(template_path, image_path):
-    template = cv2.imread(template_path, cv2.IMREAD_GRAYSCALE)
-    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-    res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
-    threshold = 0.9
-    loc = np.where(res >= threshold)
-    return zip(*loc[::-1])
-
 def crop(ori_path, template_path, choice):
     if choice == 0:
         image = Image.open(ori_path)
@@ -66,25 +50,6 @@ def recognize_digit(ori_path):
     template_path = 'image/template.jpg'
     crop(ori_path, template_path, 1)
     image = Image.open(template_path)
-    num_coord = [[0 for _ in range(10)] for _ in range(14)]
-    for i in range(1, 48):
-        image_path = f'image/{i}.jpg'
-        matches = find_matches(template_path, image_path)
-        # print(f'{i}: {list(matches)}')
-        width, height = image.size
-        cell_width = width / 10
-        cell_height = height / 14
-        for match in matches:
-            x, y = match
-            x = int(x / cell_width)
-            y = int(y / cell_height)
-            num_coord[y][x] = i
-    return num_coord
-
-def recognize_digit2(ori_path):
-    template_path = 'image/template.jpg'
-    crop(ori_path, template_path, 1)
-    image = Image.open(template_path)
     width, height = image.size
     cell_width = width / 10
     cell_height = height / 14
@@ -126,5 +91,5 @@ def recognize_digit2(ori_path):
     
 
 if __name__ == '__main__':
-    num_coord = recognize_digit2('680f088e603007d3ba061d410fe8fbb.jpg')
+    num_coord = recognize_digit('680f088e603007d3ba061d410fe8fbb.jpg')
     print(num_coord)

@@ -1,6 +1,6 @@
 import random
 import numpy as np
-from cv_digit import recognize_digit2
+from cv_digit import recognize_digit
 import os
 import copy
 from PIL import Image
@@ -203,7 +203,7 @@ if __name__ == '__main__':
     best_seed = 0
     for file in os.listdir('.'):
         if file.endswith('.jpg'):
-            t = np.array(recognize_digit2(file))
+            t = np.array(recognize_digit(file))
             break
     for i in range(151, 200):
         set_seed(i)
